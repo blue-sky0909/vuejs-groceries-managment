@@ -3,10 +3,7 @@ import _ from 'lodash'
 
 // initial state
 const state = {
-  all: [
-    { fridge: 1, amount: 40, grocery: 'Egg' },
-    { fridge: 2, amount: 21, grocery: 'Pork' }
-  ]
+  all: []
 }
 
 // getters
@@ -16,8 +13,8 @@ const getters = {
 
 // actions
 const actions = {
-  getGroceries ({ commit, state }) {
-    commit('setGroceries', state.all)
+  getGroceries ({ commit }) {
+    commit('getGroceries')
   },
   addGrocery ({ commit, state }, grocery) {
     commit('addGrocery', grocery.grocery)
@@ -35,7 +32,12 @@ const mutations = {
   deleteGrocery (state, grocery) {
     const index = _.findIndex(state.all, grocery)
     if (index > -1) {
-      Vue.delete(state.all, index)
+      if (state.all[index].amount > 1) {
+        state.all[index].amount--
+      } else {
+        Vue.delete(state.all, index)
+      }
+      localStorage.setItem('groceries', JSON.stringify(state.all))
     }
   },
   addGrocery (state, grocery) {
@@ -47,7 +49,10 @@ const mutations = {
     } else {
       state.all.push(grocery)
     }
-    console.log(state.all)
+    localStorage.setItem('groceries', JSON.stringify(state.all))
+  },
+  getGroceries (state) {
+    state.all = JSON.parse(localStorage.getItem('groceries'))
   }
 }
 

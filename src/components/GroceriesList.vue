@@ -111,13 +111,10 @@ export default {
     }
   },
   created () {
-    console.log(this.items)
+    this.$store.dispatch('getGroceries')
     this.totalRows = this.items.length
   },
   computed: {
-    // ...mapState({
-    //   items: 'all'
-    // }),
     ...mapGetters({
       items: 'allGroceries'
     }),
