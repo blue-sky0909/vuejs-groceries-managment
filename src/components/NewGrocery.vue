@@ -40,7 +40,7 @@
         </b-form-input>
         <span v-show="errors.has('amount')" class="help is-danger">{{ errors.first('amount') }}</span>
       </b-form-group>
-      <b-button type="submit" variant="primary">Save</b-button>
+      <b-button type="submit" variant="primary">Save <i class="fa fa-save" /></b-button>
       <router-link :to="'/'">Home</router-link>
     </b-form>
     <b-alert :show="dismissCountDown"

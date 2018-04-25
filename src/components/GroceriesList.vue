@@ -1,8 +1,10 @@
 <template>
   <div>
-    <b-button variant="primary" @click="createGrocery" class="btn-create">
-      Create Grocery
-    </b-button>
+    <b-row class="btn-create-row">
+      <b-button variant="primary" @click="createGrocery" class="btn-create">
+        <i class="fa fa-plus" />
+      </b-button>
+    </b-row>    
     <b-card no-body>
       <b-container fluid>
         <!-- User Interface controls -->
@@ -83,15 +85,9 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: '',
-
-  components: {
-    FontAwesomeIcon
-  },
-
   data () {
     return {
       name: '',
@@ -166,7 +162,14 @@ export default {
   a {
     color: #42b983;
   }
+  .btn-create-row {
+    justify-content: flex-end;
+    margin-right: 15px;
+    margin-bottom: 15px;
+  }
   .btn-create {
-    margin: 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
   }
 </style>

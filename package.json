@@ -14,9 +14,6 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome": "^1.1.5",
-    "@fortawesome/fontawesome-free-solid": "^5.0.10",
-    "@fortawesome/vue-fontawesome": "0.0.22",
     "bootstrap-vue": "^2.0.0-rc.8",
     "lodash": "^4.17.10",
     "vee-validate": "^2.0.6",
