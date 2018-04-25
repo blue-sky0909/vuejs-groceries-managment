@@ -84,10 +84,11 @@ export default {
           if (this.form.amount > 0) {
             this.$store.dispatch('addGrocery', {
               grocery: this.form
+            }).then(() => {
+              this.dismissCountDown = 2
+              this.message = 'Create Success'
+              this.mesasgeType = 'success'
             })
-            this.dismissCountDown = 2
-            this.message = 'Create Success'
-            this.mesasgeType = 'success'
           } else {
             this.dismissCountDown = 2
             this.message = 'Amount must be greater than 0'

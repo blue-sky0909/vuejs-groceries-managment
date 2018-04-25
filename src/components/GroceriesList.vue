@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button size="sm" variant="primary" v-on:click="createGrocery">
+    <b-button variant="primary" @click="createGrocery" class="btn-create">
       Create Grocery
     </b-button>
     <b-card no-body>
@@ -165,5 +165,8 @@ export default {
   }
   a {
     color: #42b983;
+  }
+  .btn-create {
+    margin: 15px;
   }
 </style>

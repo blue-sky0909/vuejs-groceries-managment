@@ -42,7 +42,7 @@ const mutations = {
   },
   addGrocery (state, grocery) {
     const groceryIndex = _.findIndex(state.all, (item) => {
-      return item.fridge === grocery.fridge && item.grocery === grocery.grocery
+      return item.fridge === grocery.fridge && item.grocery.toLowerCase() === grocery.grocery.toLowerCase()
     })
     if (groceryIndex > -1) {
       state.all[groceryIndex].amount = parseFloat(state.all[groceryIndex].amount) + parseFloat(grocery.amount)
