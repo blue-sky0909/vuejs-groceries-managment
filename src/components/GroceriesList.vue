@@ -54,8 +54,6 @@
                 :sort-desc.sync="sortDesc"
                 @filtered="onFiltered"
         >
-          <template slot="name" slot-scope="row">{{row.value.first}} {{row.value.last}}</template>
-          <template slot="isActive" slot-scope="row">{{row.value?'Yes :)':'No :('}}</template>
           <template slot="actions" slot-scope="row">
             <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
             <b-button size="sm" @click.stop="info(row.item, row.index, $event.target)" class="mr-1"  variant="success">
@@ -124,7 +122,6 @@ export default {
       items: 'allGroceries'
     }),
     sortOptions () {
-      console.log(this.items)
       // Create an options list from our tableFields
       return this.tableFields
         .filter(f => f.sortable)

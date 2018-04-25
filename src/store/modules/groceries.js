@@ -19,16 +19,11 @@ const actions = {
   getGroceries ({ commit, state }) {
     commit('setGroceries', state.all)
   },
-
-  setProduct ({ commit, state }, product) {
-  //  const allgroceries = state.all
-    console.log(commit)
-    console.log(state)
-    console.log(product)
+  addGrocery ({ commit, state }, grocery) {
+    commit('addGrocery', grocery.grocery)
   },
-
-  deleteGrocery ({ commit, state }, product) {
-    commit('deleteGrocery', product)
+  deleteGrocery ({ commit, state }, grocery) {
+    commit('deleteGrocery', grocery)
   }
 }
 
@@ -37,11 +32,22 @@ const mutations = {
   setGroceries (state, groceries) {
     state.all = groceries
   },
-  deleteGrocery (state, product) {
-    const index = _.findIndex(state.all, product)
+  deleteGrocery (state, grocery) {
+    const index = _.findIndex(state.all, grocery)
     if (index > -1) {
       Vue.delete(state.all, index)
     }
+  },
+  addGrocery (state, grocery) {
+    const groceryIndex = _.findIndex(state.all, (item) => {
+      return item.fridge === grocery.fridge && item.grocery === grocery.grocery
+    })
+    if (groceryIndex > -1) {
+      state.all[groceryIndex].amount = parseFloat(state.all[groceryIndex].amount) + parseFloat(grocery.amount)
+    } else {
+      state.all.push(grocery)
+    }
+    console.log(state.all)
   }
 }
 

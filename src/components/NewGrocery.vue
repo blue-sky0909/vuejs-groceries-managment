@@ -13,18 +13,18 @@
         </b-form-select>
         <span v-show="errors.has('fridge')" class="help is-danger">{{ errors.first('fridge') }}</span>
       </b-form-group>
-      <b-form-group id="groceries"
-                    label="Groceries:"
+      <b-form-group id="grocery"
+                    label="Grocery:"
                     label-for="exampleInput1">
         <b-form-input id="exampleInput1"
-                      name="groceries"
-                      v-model="form.groceries"
+                      name="grocery"
+                      v-model="form.grocery"
                       v-validate="'required|alpha'"
-                      :class="{'input': true, 'is-danger': errors.has('groceries') }"
+                      :class="{'input': true, 'is-danger': errors.has('grocery') }"
                       type="text"
-                      placeholder="Groceries">
+                      placeholder="grocery">
         </b-form-input>
-        <span v-show="errors.has('groceries')" class="help is-danger">{{ errors.first('groceries') }}</span>
+        <span v-show="errors.has('grocery')" class="help is-danger">{{ errors.first('grocery') }}</span>
       </b-form-group>
       <b-form-group id="exampleInputGroup2"
                     label="Amount:"
@@ -40,7 +40,6 @@
         <span v-show="errors.has('amount')" class="help is-danger">{{ errors.first('amount') }}</span>
       </b-form-group>
       <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
   </b-container>
 </template>
@@ -50,13 +49,14 @@ export default {
   data () {
     return {
       form: {
-        groceries: '',
+        grocery: '',
         amount: 0,
         fridge: null
       },
       fridges: [
         { text: 'Select One', value: null },
-        'fridges1', 'fridges2', 'fridges3'
+        { text: 'Fridges 1', value: 1 },
+        { text: 'Fridges 2', value: 2 }
       ]
     }
   },
@@ -71,8 +71,8 @@ export default {
     validateBeforeSubmit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$store.dispatch('setProduct', {
-            product: this.form
+          this.$store.dispatch('addGrocery', {
+            grocery: this.form
           })
         }
       })
