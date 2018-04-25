@@ -52,7 +52,9 @@ const mutations = {
     localStorage.setItem('groceries', JSON.stringify(state.all))
   },
   getGroceries (state) {
-    state.all = JSON.parse(localStorage.getItem('groceries'))
+    if (!_.isNil(localStorage.getItem('groceries'))) {
+      state.all = JSON.parse(localStorage.getItem('groceries'))
+    }
   }
 }
 

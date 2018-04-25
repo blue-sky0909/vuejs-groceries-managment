@@ -1,5 +1,6 @@
 <template>
   <b-container>
+    <h3>Create Grocery</h3>
     <b-form @submit.prevent="validateBeforeSubmit" @reset="onReset">
       <b-form-group id="fridges"
                     label="Fridge:"
@@ -39,8 +40,15 @@
         </b-form-input>
         <span v-show="errors.has('amount')" class="help is-danger">{{ errors.first('amount') }}</span>
       </b-form-group>
-      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="submit" variant="primary">Save</b-button>
+      <router-link :to="'/'">Home</router-link>
     </b-form>
+    <b-alert :show="dismissCountDown"
+             dismissible
+             :variant="mesasgeType"
+             @dismissed="dismissCountDown=0">
+      {{message}}
+    </b-alert>
   </b-container>
 </template>
 <script>
@@ -49,14 +57,17 @@ export default {
     return {
       form: {
         grocery: '',
-        amount: 0,
+        amount: 1,
         fridge: null
       },
       fridges: [
         { text: 'Select One', value: null },
         { text: 'Fridges 1', value: 1 },
         { text: 'Fridges 2', value: 2 }
-      ]
+      ],
+      dismissCountDown: 0,
+      message: '',
+      mesasgeType: ''
     }
   },
   methods: {
@@ -70,9 +81,18 @@ export default {
     validateBeforeSubmit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$store.dispatch('addGrocery', {
-            grocery: this.form
-          })
+          if (this.form.amount > 0) {
+            this.$store.dispatch('addGrocery', {
+              grocery: this.form
+            })
+            this.dismissCountDown = 2
+            this.message = 'Create Success'
+            this.mesasgeType = 'success'
+          } else {
+            this.dismissCountDown = 2
+            this.message = 'Amount must be greater than 0'
+            this.mesasgeType = 'danger'
+          }
         }
       })
     }

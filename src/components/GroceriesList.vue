@@ -56,9 +56,9 @@
         >
           <template slot="actions" slot-scope="row">
             <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-            <b-button size="sm" @click.stop="info(row.item, row.index, $event.target)" class="mr-1"  variant="success">
+            <!-- <b-button size="sm" @click.stop="info(row.item, row.index, $event.target)" class="mr-1"  variant="success">
               Show Detail
-            </b-button>
+            </b-button> -->
             <b-button size="sm" @click.prevent="deleteGrocery(row.item)" variant="primary">
               Used Up
             </b-button>
