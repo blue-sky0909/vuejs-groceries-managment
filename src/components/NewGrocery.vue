@@ -45,6 +45,7 @@
   </b-container>
 </template>
 <script>
+// import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -70,8 +71,9 @@ export default {
     validateBeforeSubmit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          console.log(result)
-          console.log(this.form)
+          this.$store.dispatch('setProduct', {
+            product: this.form
+          })
         }
       })
     }

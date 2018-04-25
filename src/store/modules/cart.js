@@ -4,7 +4,8 @@
 // shape: [{ id, quantity }]
 const state = {
   added: [],
-  checkoutStatus: null
+  checkoutStatus: null,
+  count: 1
 }
 
 // getters

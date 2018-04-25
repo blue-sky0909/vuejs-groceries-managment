@@ -1,7 +1,6 @@
 <template>
   <div>
     <b-button size="sm" variant="primary" v-on:click="createGrocery">
-      <font-awesome-icon icon="user" />
       Create Grocery
     </b-button>
     <b-card no-body>
@@ -43,6 +42,7 @@
 
         <!-- Main table element -->
         <b-table show-empty
+                striped
                 hover
                 stacked="md"
                 :items="items"
@@ -59,10 +59,10 @@
           <template slot="actions" slot-scope="row">
             <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
             <b-button size="sm" @click.stop="info(row.item, row.index, $event.target)" class="mr-1"  variant="success">
-              Info modal
+              Show Detail
             </b-button>
-            <b-button size="sm" @click.stop="row.toggleDetails" variant="primary">
-              {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+            <b-button size="sm" @click.prevent="deleteGrocery(row.item)" variant="primary">
+              Used Up
             </b-button>
           </template>
           <template slot="row-details" slot-scope="row">
@@ -86,8 +86,9 @@
 
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'HelloWorld',
+  name: '',
 
   components: {
     FontAwesomeIcon
@@ -96,34 +97,10 @@ export default {
   data () {
     return {
       name: '',
-      items: [
-        { isActive: true, age: 40, name: { first: 'Dickerson', last: 'Macdonald' } },
-        { isActive: false, age: 21, name: { first: 'Larsen', last: 'Shaw' } },
-        {
-          isActive: false,
-          age: 9,
-          name: { first: 'Mini', last: 'Navarro' },
-          _rowVariant: 'success'
-        },
-        { isActive: false, age: 89, name: { first: 'Geneva', last: 'Wilson' } },
-        { isActive: true, age: 38, name: { first: 'Jami', last: 'Carney' } },
-        { isActive: false, age: 27, name: { first: 'Essie', last: 'Dunlap' } },
-        { isActive: true, age: 40, name: { first: 'Thor', last: 'Macdonald' } },
-        {
-          isActive: true,
-          age: 87,
-          name: { first: 'Larsen', last: 'Shaw' },
-          _cellVariants: { age: 'danger', isActive: 'warning' }
-        },
-        { isActive: false, age: 26, name: { first: 'Mitzi', last: 'Navarro' } },
-        { isActive: false, age: 22, name: { first: 'Genevieve', last: 'Wilson' } },
-        { isActive: true, age: 38, name: { first: 'John', last: 'Carney' } },
-        { isActive: false, age: 29, name: { first: 'Dick', last: 'Dunlap' } }
-      ],
       tableFields: [
-        { key: 'name', label: 'Person Full name', sortable: true },
-        { key: 'age', label: 'Person age', sortable: true, 'class': 'text-center' },
-        { key: 'isActive', label: 'is Active' },
+        { key: 'fridge', label: 'Fridge', sortable: true },
+        { key: 'grocery', label: 'Grocery Name', sortable: true },
+        { key: 'amount', label: 'Amount', sortable: true, 'class': 'text-center' },
         { key: 'actions', label: 'Actions' }
       ],
       currentPage: 1,
@@ -136,14 +113,18 @@ export default {
     }
   },
   created () {
+    console.log(this.items)
     this.totalRows = this.items.length
   },
   computed: {
-    showAlert () {
-      console.log(this.items)
-      return this.name.length > 4
-    },
+    // ...mapState({
+    //   items: 'all'
+    // }),
+    ...mapGetters({
+      items: 'allGroceries'
+    }),
     sortOptions () {
+      console.log(this.items)
       // Create an options list from our tableFields
       return this.tableFields
         .filter(f => f.sortable)
@@ -151,6 +132,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'deleteGrocery'
+    ]),
     info (item, index, button) {
       this.modalInfo.title = `Row index: ${index}`
       this.modalInfo.content = JSON.stringify(item, null, 2)
