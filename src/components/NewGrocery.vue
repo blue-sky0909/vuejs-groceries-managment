@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <h3>Create Grocery</h3>
-    <b-form @submit.prevent="validateBeforeSubmit">
+    <b-form @submit.prevent="validateBeforeSubmit" ref="form">
       <b-form-group id="fridges"
                     label="Fridge:"
                     label-for="fridgeSelect">
@@ -81,6 +81,7 @@ export default {
               this.dismissCountDown = 2
               this.message = 'Create Success'
               this.mesasgeType = 'success'
+              this.$refs.form.reset()
             })
           } else {
             this.dismissCountDown = 2

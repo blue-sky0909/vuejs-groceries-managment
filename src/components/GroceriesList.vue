@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 export default {
   name: '',
   data () {
@@ -113,6 +113,9 @@ export default {
   computed: {
     ...mapGetters({
       items: 'allGroceries'
+    }),
+    ...mapState({
+      groceries: state => state.groceries.all
     }),
     sortOptions () {
       // Create an options list from our tableFields
