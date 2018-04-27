@@ -4,7 +4,7 @@
       <b-button variant="primary" @click="createGrocery" class="btn-create">
         <i class="fa fa-plus" />
       </b-button>
-    </b-row>    
+    </b-row>
     <b-card no-body>
       <b-container fluid>
         <!-- User Interface controls -->

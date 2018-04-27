@@ -1,6 +1,6 @@
 # my-app
 
-> A Vue.js project
+Vue2, Vuex, bootstrap-vue, vee-validate, vue-router
 
 ## Build Setup
 
