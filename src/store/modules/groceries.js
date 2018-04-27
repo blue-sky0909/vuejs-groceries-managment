@@ -41,14 +41,16 @@ const mutations = {
     }
   },
   addGrocery (state, grocery) {
-    const groceryIndex = _.findIndex(state.all, (item) => {
+    let groceries = state.all
+    const groceryIndex = _.findIndex(groceries, (item) => {
       return item.fridge === grocery.fridge && item.grocery.toLowerCase() === grocery.grocery.toLowerCase()
     })
     if (groceryIndex > -1) {
-      state.all[groceryIndex].amount = parseFloat(state.all[groceryIndex].amount) + parseFloat(grocery.amount)
+      groceries[groceryIndex].amount = parseFloat(groceries[groceryIndex].amount) + parseFloat(grocery.amount)
     } else {
-      state.all.push(grocery)
+      groceries.push(grocery)
     }
+    state.all = groceries
     localStorage.setItem('groceries', JSON.stringify(state.all))
   },
   getGroceries (state) {
