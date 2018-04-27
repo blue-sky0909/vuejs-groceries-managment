@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <h3>Create Grocery</h3>
-    <b-form @submit.prevent="validateBeforeSubmit" @reset="onReset">
+    <b-form @submit.prevent="validateBeforeSubmit">
       <b-form-group id="fridges"
                     label="Fridge:"
                     label-for="fridgeSelect">
@@ -20,7 +20,7 @@
         <b-form-input id="exampleInput1"
                       name="grocery"
                       v-model="form.grocery"
-                      v-validate="'required|alpha'"
+                      v-validate="'required|alpha_spaces'"
                       :class="{'input': true, 'is-danger': errors.has('grocery') }"
                       type="text"
                       placeholder="grocery">
@@ -71,13 +71,6 @@ export default {
     }
   },
   methods: {
-    onSubmit (evt) {
-      evt.preventDefault()
-      console.log(JSON.stringify(this.form))
-    },
-    onReset (evt) {
-      evt.preventDefault()
-    },
     validateBeforeSubmit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
