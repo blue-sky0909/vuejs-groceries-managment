@@ -16,6 +16,10 @@ export default new Router({
       path: '/create',
       name: 'create',
       component: NewGrocery
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 })
