@@ -81,7 +81,7 @@ export default {
               this.dismissCountDown = 2
               this.message = 'Create Success'
               this.mesasgeType = 'success'
-              this.$refs.form.reset()
+              // this.$refs.form.reset()
             })
           } else {
             this.dismissCountDown = 2

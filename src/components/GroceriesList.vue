@@ -4,6 +4,7 @@
       <b-button variant="primary" @click="createGrocery" class="btn-create">
         <i class="fa fa-plus" />
       </b-button>
+      <b-btn @click="showModal">Edit</b-btn>
     </b-row>
     <b-card no-body>
       <b-container fluid>
@@ -78,7 +79,35 @@
         <b-modal id="modalInfo" @hide="resetModal" :title="modalInfo.title" ok-only>
           <pre>{{ modalInfo.content }}</pre>
         </b-modal>
-
+        <b-modal ref="myModalRef" hide-footer title="Change">
+          <div class="grocery-list">
+            <b-list-group>
+              <b-list-group-item v-for="(value, key) in preGroceries" :key="key" v-if="value.fridge == 1" class="grocery-item"
+                :class="{'input': true, 'is-selected': value.grocery == leftItem.grocery }">
+                <span @click="oneToTwo(value)">{{ value.grocery }}</span>
+              </b-list-group-item>
+            </b-list-group>
+            <div class="btn-action-group">
+              <b-button variant="primary" @click="moveToLeft" class="btn-create" :disabled="!leftItem.fridge" >
+                <i class="fa fa-angle-right" />
+              </b-button>
+              <b-button variant="primary" @click="moveToRight" class="btn-create"  :disabled="!rightItem.fridge">
+                <i class="fa fa-angle-left" />
+              </b-button>
+            </div>
+            <b-list-group>
+              <b-list-group-item v-for="(value, key) in preGroceries" :key="key" v-if="value.fridge == 2" class="grocery-item"
+                :class="{'input': true, 'is-selected': value.grocery == rightItem.grocery }">
+                <span @click="twoToOne(value)"> {{ value.grocery }}</span>
+              </b-list-group-item>
+            </b-list-group>
+          </div>
+          <div>
+            <b-button variant="primary" @click="apply">
+              Apply
+            </b-button>
+          </div>
+        </b-modal>
       </b-container>
     </b-card>
   </div>
@@ -103,7 +132,9 @@ export default {
       sortBy: null,
       sortDesc: false,
       filter: null,
-      modalInfo: { title: '', content: '' }
+      modalInfo: { title: '', content: '' },
+      leftItem: {},
+      rightItem: {}
     }
   },
   created () {
@@ -112,10 +143,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items: 'allGroceries'
+      items: 'allGroceries',
+      preGroceries: 'preGroceries'
     }),
     ...mapState({
-      groceries: state => state.groceries.all
+      applyFlag: state => state.groceries.applyFlag
     }),
     sortOptions () {
       // Create an options list from our tableFields
@@ -126,7 +158,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'deleteGrocery'
+      'deleteGrocery',
+      'apply'
     ]),
     info (item, index, button) {
       this.modalInfo.title = `Row index: ${index}`
@@ -144,6 +177,33 @@ export default {
     },
     createGrocery () {
       this.$router.push('/create')
+    },
+    moveToLeft () {
+      this.$store.dispatch('oneToTwo', {
+        grocery: {...this.leftItem}
+      })
+      this.leftItem = {}
+    },
+    moveToRight (grocery) {
+      this.$store.dispatch('twoToOne', {
+        grocery: {...this.rightItem}
+      })
+      this.rightItem = {}
+    },
+    oneToTwo (item) {
+      this.leftItem = item
+      this.rightItem = {}
+    },
+    twoToOne (item) {
+      this.rightItem = item
+      this.leftItem = {}
+    },
+    showModal () {
+      this.$store.dispatch('format')
+      this.$refs.myModalRef.show()
+    },
+    hideModal () {
+      this.$refs.myModalRef.hide()
     }
   }
 }
@@ -174,5 +234,21 @@ export default {
     width: 50px;
     height: 50px;
     border-radius: 25px;
+  }
+  .grocery-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .btn-action-group {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .is-selected {
+    background-color: #dddddd;
+  }
+  .grocery-item {
+    cursor: pointer;
   }
 </style>
